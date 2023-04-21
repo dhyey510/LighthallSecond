@@ -7,28 +7,20 @@ const mongoose = require("mongoose");
 
 const getAllTask = async (req, res) => {
   try {
-    const allTasks = await Task.find({ User: req.params.name });
-    res.status(200).json(allTasks);
+    await Task.find({ User: req.query.username }).then((allTasks) => {
+      res.render("homepage.ejs", { allTasks, user: req.query.username });
+    });
   } catch (error) {
     res.status(404).json({ error: "No Task!!" });
   }
 };
 
 /**
- * get single task
+ * Open new task form
  */
 
-const getSingleTask = async (req, res) => {
-  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-    return res.status(404).json({ error: "Not valid id" });
-  }
-  await Task.findById(req.params.id)
-    .then((task) => {
-      res.status(200).json(task);
-    })
-    .catch((e) => {
-      res.status(404).json({ error: e });
-    });
+const openNewTask = (req, res) => {
+  res.render("newTaskPage.ejs", { user: req.params.name });
 };
 
 /**
@@ -48,11 +40,22 @@ const createTask = async (req, res) => {
   await newTask
     .save()
     .then((task) => {
-      res.status(200).json(task);
+      res.redirect(`/homepage?username=${req.params.name}`);
     })
     .catch((e) => {
       res.status(404).json({ error: e });
     });
+};
+
+/**
+ * Open edit task page
+ */
+const openEditTask = async (req, res) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(404).json({ error: "Not valid id" });
+  }
+  const oldTask = await Task.findById(req.params.id);
+  res.render("editTaskPage.ejs", { oldTask, user: req.params.name });
 };
 
 /**
@@ -76,7 +79,7 @@ const editTask = async (req, res) => {
   await oldTask
     .save()
     .then((task) => {
-      res.status(200).json(task);
+      res.redirect(`/homepage?username=${req.params.name}`);
     })
     .catch((e) => {
       res.status(404).json({ error: e });
@@ -94,17 +97,80 @@ const deleteTask = async (req, res) => {
 
   await Task.findByIdAndDelete(req.params.id)
     .then((deletedTask) => {
-      res.status(200).json(deletedTask);
+      res.redirect(`/homepage?username=${req.params.name}`);
     })
     .catch((e) => {
       res.status(404).json({ error: "No such task" });
     });
 };
 
+const sortStatus = async (req, res) => {
+  await Task.find({ User: req.params.name }).then((allTasks) => {
+    // console.log(allTasks);
+    allTasks.sort(getSortedOrder("Status"));
+    // console.log(allTasks);
+    res.render("homepage.ejs", { allTasks, user: req.params.name });
+    // res.redirect(`/homepage?username=${req.params.name}`);
+  });
+};
+
+const sortDueDate = async (req, res) => {
+  await Task.find({ User: req.params.name }).then((allTasks) => {
+    // console.log(allTasks);
+    allTasks.sort(getSortedOrder("DueDate"));
+    // console.log(allTasks);
+    res.render("homepage.ejs", { allTasks, user: req.params.name });
+    // res.redirect(`/homepage?username=${req.params.name}`);
+  });
+};
+
+const sortTitle = async (req, res) => {
+  await Task.find({ User: req.params.name }).then((allTasks) => {
+    // console.log(allTasks);
+    allTasks.sort(getSortedOrder("Title"));
+    // console.log(allTasks);
+    res.render("homepage.ejs", { allTasks, user: req.params.name });
+    // res.redirect(`/homepage?username=${req.params.name}`);
+  });
+};
+
+const getSortedOrder = (prop) => {
+  return function (a, b) {
+    if (a[prop] > b[prop]) {
+      return 1;
+    } else if (a[prop] < b[prop]) {
+      return -1;
+    }
+    return 0;
+  };
+};
+
+const searchTask = async (req, res) => {
+  const searchKey = req.query.search;
+
+  await Task.find({ User: req.params.name }).then((allTasks) => {
+    let findTask = [];
+    for (let i = 0; i < allTasks.length; i++) {
+      if (allTasks[i].Title.toLowerCase().includes(searchKey)) {
+        findTask.push(allTasks[i]);
+      }
+    }
+    res.render("homepage.ejs", {
+      allTasks: findTask,
+      user: req.params.name,
+    });
+  });
+};
+
 module.exports = {
   getAllTask,
-  getSingleTask,
   createTask,
   editTask,
   deleteTask,
+  openNewTask,
+  openEditTask,
+  sortStatus,
+  sortDueDate,
+  sortTitle,
+  searchTask,
 };
