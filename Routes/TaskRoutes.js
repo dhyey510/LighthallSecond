@@ -9,10 +9,10 @@ const {
 
 const router = express.Router();
 
-//GET /:name  ->  for home page
+//GET /:name  ->  to get all task on home page
 router.get("/:name", getAllTask);
 
-//GET /:id/task -> Get single task for edit
+//GET /:id/task -> get single task
 router.get("/:id/task", getSingleTask);
 
 //GET /:name/form  -> for task create/edit web page
@@ -23,10 +23,10 @@ router.get("/:id/task", getSingleTask);
 //POST /:name/task ->  for creating task
 router.post("/:name/task", createTask);
 
-//PATCH /:id/edit  -> for edit task
+//PUT /:name/:id/edit  -> for edit task
 router.put("/:name/:id/edit", editTask);
 
-//DELETE /:id/delete  ->  for delete task
+//DELETE /:name/:id/delete  ->  for delete task
 router.delete("/:name/:id/delete", deleteTask);
 
 module.exports = router;
