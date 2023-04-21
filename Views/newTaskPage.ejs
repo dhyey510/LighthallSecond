@@ -82,7 +82,7 @@
     </nav>
 
     <div class="container">
-      <h1 class="mt-5">Create task</h1>
+      <h1 class="my-5">Create task</h1>
       <form
         action="/<%= user%>/task"
         method="post"
@@ -90,26 +90,20 @@
         style="height: 60vh"
       >
         <div class="mb-3">
-          <label
-            for="exampleFormControlInput1"
-            class="form-label col-form-label-lg"
-            >Title</label
-          >
+          <label for="exampleFormControlInput1" class="form-label">Title</label>
           <input
             type="text"
-            class="form-control form-control-lg"
+            class="form-control"
             id="exampleFormControlInput1"
             name="Title"
           />
         </div>
         <div class="mb-3">
-          <label
-            for="exampleFormControlTextarea1"
-            class="form-label col-form-label-lg"
+          <label for="exampleFormControlTextarea1" class="form-label"
             >Description</label
           >
           <textarea
-            class="form-control form-control-lg"
+            class="form-control"
             id="exampleFormControlTextarea1"
             rows="3"
             name="Description"
@@ -117,22 +111,18 @@
         </div>
         <div class="row">
           <div class="mb-3 col">
-            <label for="duedateinput" class="form-label col-form-label-lg"
-              >Due Date</label
-            >
+            <label for="duedateinput" class="form-label">Due Date</label>
             <input
               type="date"
-              class="form-control form-control-lg"
+              class="form-control"
               id="duedateinput"
               name="DueDate"
             />
           </div>
           <div class="mb-3 col">
-            <label for="statusinput" class="form-label col-form-label-lg"
-              >Status</label
-            >
+            <label for="statusinput" class="form-label">Status</label>
             <select
-              class="form-select form-select-lg"
+              class="form-select"
               aria-label="status select"
               name="Status"
               id="statusinput"
@@ -144,9 +134,7 @@
           </div>
         </div>
         <div class="mt-3">
-          <button type="submit" class="btn btn-primary btn-lg">
-            Create Task
-          </button>
+          <button type="submit" class="btn btn-primary">Create Task</button>
         </div>
       </form>
     </div>
