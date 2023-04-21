@@ -9,7 +9,7 @@ const taskRoutes = require("./Routes/TaskRoutes");
 //middleware
 // app.use(express.json());
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "/views"));
+app.set("views", path.join(__dirname, "/Views"));
 // app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 
