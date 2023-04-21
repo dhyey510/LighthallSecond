@@ -10,6 +10,7 @@ const {
   sortDueDate,
   sortTitle,
   searchTask,
+  logout,
 } = require("../Controller/TaskController");
 
 const router = express.Router();
@@ -43,5 +44,8 @@ router.get("/:name/sort/title", sortTitle);
 
 //GET /:name/search -> sort according to title
 router.get("/:name/search", searchTask);
+
+//GET /:name/logout -> logout
+router.get("/:name/logout", logout);
 
 module.exports = router;

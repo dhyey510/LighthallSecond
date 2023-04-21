@@ -162,6 +162,11 @@ const searchTask = async (req, res) => {
   });
 };
 
+const logout = (req, res) => {
+  req.logout();
+  res.redirect("/");
+};
+
 module.exports = {
   getAllTask,
   createTask,
@@ -173,4 +178,5 @@ module.exports = {
   sortDueDate,
   sortTitle,
   searchTask,
+  logout,
 };
