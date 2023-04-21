@@ -163,7 +163,7 @@ const searchTask = async (req, res) => {
 };
 
 const logout = (req, res) => {
-  req.logout();
+  // req.logout();
   res.redirect("/");
 };
 
